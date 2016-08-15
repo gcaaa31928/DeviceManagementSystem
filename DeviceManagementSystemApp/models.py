@@ -7,6 +7,7 @@ class Students(models.Model):
     id = models.IntegerField(primary_key=True, unique=True)
     name = models.CharField(max_length=150, blank=True, default='')
     access_token = models.CharField(max_length=50, blank=True, default='')
+    manager = models.BooleanField(default=False)
 
 class Devices(models.Model):
     id = models.IntegerField(primary_key=True, unique=True)
