@@ -1,10 +1,11 @@
+import uuid
+from datetime import datetime
+
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from DeviceManagementSystemApp.models import Students
-
-
+from DeviceManagementSystemApp.models import Students, Devices
 
 
 def get_student(meta):
@@ -16,6 +17,15 @@ def get_student(meta):
         return results[0]
     else:
         return None
+
+def retrieve_data(data):
+    id = data.get('id', None)
+    name = data.get('name', None)
+    check_in_date_time = datetime.now()
+    used_for = data.get('user_for', None)
+    type = data.get('type', None)
+    issues = data.get('issues', None)
+    return id, name, check_in_date_time, used_for, type, issues
 
 @api_view(['POST', 'GET', 'POST', 'DELETE'])
 def devices(request):
@@ -34,9 +44,20 @@ def devices(request):
 def list(request):
     pass
 
-def add(request):
-    request_data = request.data
-    print(request_data)
+def add(request, owner):
+    id, name, check_in_date_time, used_for, type, issues = retrieve_data(request.data)
+    token = str(uuid.uuid1()).replace('-', '')
+    device = Devices(
+        id=id,
+        name=name,
+        owner=owner,
+        check_in_date_time=check_in_date_time,
+        used_for=used_for,
+        type=type,
+        issues=issues,
+        token=token
+    )
+    device.save()
 
 def show(request):
     pass
