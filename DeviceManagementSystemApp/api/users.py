@@ -17,7 +17,7 @@ def ldap_login(request):
     ldap_adapter = LDAPAdapter(username, password)
     if ldap_adapter.try_login():
         uid, name, mail = ldap_adapter.get_result()
-        student = Students.objects.get_or_create(
+        student, created = Students.objects.get_or_create(
             id=uid,
             name=name,
             mail=mail,
