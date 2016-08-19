@@ -6,6 +6,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from DeviceManagementSystemApp.models import Students, Devices
+from DeviceManagementSystemApp.serializer import DeviceSerializer
+from DeviceManagementSystemApp.views import JSONResponse
 
 
 def get_student(meta):
@@ -42,7 +44,9 @@ def devices(request):
     return Response(None , status=status.HTTP_200_OK)
 
 def list(request):
-    pass
+    devices = Devices.objects.all()
+    serializer = DeviceSerializer(devices, many=True)
+    return JSONResponse(serializer.data, status=200)
 
 def add(request, owner):
     id, name, check_in_date_time, used_for, type, issues = retrieve_data(request.data)

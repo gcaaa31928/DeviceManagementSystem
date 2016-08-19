@@ -14,4 +14,12 @@ class DeviceSerializer(serializers.ModelSerializer):
             'id',
             'name',
             'owner'
+            'check_in_date_time',
+            'used_for',
+            'type',
+            'issues',
+            'token'
+        )
+        read_only_fields = (
+            'id'
         )
