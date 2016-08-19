@@ -87,6 +87,10 @@ DATABASES = {
     }
 }
 
+# ldap
+LDAP_SERVER = "ldap://140.124.183.111"
+USER_DN = "ou=people,dc=csie,dc=ntut,dc=edu,dc=tw"
+BASE_DN = "dc=csie,dc=ntut,dc=edu,dc=tw"
 
 
 # Password validation
