@@ -23,11 +23,10 @@ def get_student(meta):
 def retrieve_data(data):
     id = data.get('id', None)
     name = data.get('name', None)
-    check_in_date_time = datetime.now()
     used_for = data.get('user_for', None)
     type = data.get('type', None)
     issues = data.get('issues', None)
-    return id, name, check_in_date_time, used_for, type, issues
+    return id, name, used_for, type, issues
 
 @api_view(['POST', 'GET', 'POST', 'DELETE'])
 def devices(request):
@@ -37,7 +36,7 @@ def devices(request):
     if request.method == 'GET':
         list(request)
     elif request.method == 'POST':
-        add(request)
+        add(request, student)
     elif request.method == 'DELETE':
         delete_all(request)
 
@@ -49,13 +48,12 @@ def list(request):
     return JSONResponse(serializer.data, status=200)
 
 def add(request, owner):
-    id, name, check_in_date_time, used_for, type, issues = retrieve_data(request.data)
+    id, name, used_for, type, issues = retrieve_data(request.data)
     token = str(uuid.uuid1()).replace('-', '')
     device = Devices(
         id=id,
         name=name,
         owner=owner,
-        check_in_date_time=check_in_date_time,
         used_for=used_for,
         type=type,
         issues=issues,
@@ -69,5 +67,14 @@ def show(request):
 def delete_all(request):
     pass
 
-def check_out(request, student):
-    pass
+def check_in(request, token):
+    student = get_student(request.META)
+    device = Devices.objects.get(token=token)
+    if device.owner:
+        return JSONResponse('already had owner', status=status.HTTP_400_BAD_REQUEST)
+    else:
+        device.owner = student
+        device.check_in_date_time = datetime.now()
+        device.save()
+        return JSONResponse('success', status=status.HTTP_200_OK)
+
