@@ -17,4 +17,5 @@ class Devices(models.Model):
     used_for = models.TextField()
     type = models.CharField(max_length=20, blank=True, default='')
     issues = models.TextField()
+    property_number = models.IntegerField()
     token = models.CharField(max_length=50, blank=True, default='')

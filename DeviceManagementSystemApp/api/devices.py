@@ -20,6 +20,7 @@ def get_student(meta):
     else:
         return None
 
+
 def retrieve_data(data):
     id = data.get('id', None)
     name = data.get('name', None)
@@ -72,9 +73,18 @@ def check_in(request, token):
     device = Devices.objects.get(token=token)
     if device.owner:
         return JSONResponse('already had owner', status=status.HTTP_400_BAD_REQUEST)
-    else:
-        device.owner = student
-        device.check_in_date_time = datetime.now()
-        device.save()
-        return JSONResponse('success', status=status.HTTP_200_OK)
+    device.owner = student
+    device.check_in_date_time = datetime.now()
+    device.save()
+    return JSONResponse('success', status=status.HTTP_200_OK)
 
+def check_out(request, token):
+    student = get_student(request.META)
+    if not student.manager:
+       return JSONResponse('forbidden', status=status.HTTP_403_FORBIDDEN)
+    device = Devices.objects.get(token=token)
+    if not device.owner:
+        return JSONResponse('no owner with this device', status=status.HTTP_400_BAD_REQUEST)
+    device.owner = None
+    device.save()
+    return JSONResponse('success', status=status.HTTP_200_OK)
