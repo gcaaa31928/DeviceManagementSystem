@@ -32,8 +32,6 @@ def retrieve_data(data):
 @api_view(['POST', 'GET', 'POST', 'DELETE'])
 def devices(request):
     student = get_student(request.META)
-    # if student is None or not student.manager:
-    #     return Response("Just forbidden", status=status.HTTP_403_FORBIDDEN)
     if request.method == 'GET':
         list(request)
     elif request.method == 'POST':
@@ -42,6 +40,11 @@ def devices(request):
         delete_all(request)
 
     return Response(None , status=status.HTTP_200_OK)
+
+@api_view(['GET', 'DELETE'])
+def device(request):
+    student = get_student(request.META)
+
 
 def list(request):
     devices = Devices.objects.all()
