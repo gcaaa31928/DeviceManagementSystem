@@ -33,17 +33,23 @@ def retrieve_data(data):
 def devices(request):
     student = get_student(request.META)
     if request.method == 'GET':
-        list(request)
+        return list(request)
     elif request.method == 'POST':
-        add(request, student)
+        return add(request, student)
     elif request.method == 'DELETE':
-        delete_all(request)
-
-    return Response(None , status=status.HTTP_200_OK)
+        return delete_all(request)
+    return JSONResponse(None , status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'DELETE'])
-def device(request):
+def device(request, id):
     student = get_student(request.META)
+    device = Devices.objects.get(id=id)
+    if request.method == 'GET':
+        return show(request, student, device)
+    elif request.method == 'DELETE':
+        return delete(request, student, device)
+
+    return JSONResponse(None, status=status.HTTP_400_BAD_REQUEST)
 
 
 def list(request):
@@ -64,9 +70,16 @@ def add(request, owner):
         token=token
     )
     device.save()
+    return JSONResponse(None, status=200)
 
-def show(request):
-    pass
+def delete(request, student, device):
+    if student.manager:
+        device.delete()
+    return JSONResponse('success', status=200)
+
+def show(request, student, device):
+    serializer = DeviceSerializer(device)
+    return JSONResponse(serializer.data, status=200)
 
 def delete_all(request):
     pass
