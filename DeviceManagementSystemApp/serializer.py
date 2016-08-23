@@ -13,7 +13,7 @@ class DeviceSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'name',
-            'owner'
+            'owner',
             'check_in_date_time',
             'used_for',
             'type',
@@ -21,5 +21,5 @@ class DeviceSerializer(serializers.ModelSerializer):
             'token'
         )
         read_only_fields = (
-            'id'
+            'id',
         )

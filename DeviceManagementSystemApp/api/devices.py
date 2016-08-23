@@ -57,20 +57,22 @@ def list(request):
     serializer = DeviceSerializer(devices, many=True)
     return JSONResponse(serializer.data, status=200)
 
-def add(request, owner):
+def add(request, student):
+    if not student.manager:
+        return JSONResponse('forbidden', status=status.HTTP_403_FORBIDDEN)
     id, name, used_for, type, issues = retrieve_data(request.data)
     token = str(uuid.uuid1()).replace('-', '')
     device = Devices(
         id=id,
         name=name,
-        owner=owner,
         used_for=used_for,
         type=type,
         issues=issues,
         token=token
     )
     device.save()
-    return JSONResponse(None, status=200)
+    serializer = DeviceSerializer(device)
+    return JSONResponse(serializer.data, status=200)
 
 def delete(request, student, device):
     if student.manager:

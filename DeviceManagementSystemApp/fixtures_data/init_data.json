@@ -1,0 +1,64 @@
+[
+  {
+    "model": "DeviceManagementSystemApp.students",
+    "pk": 104598000,
+    "fields": {
+      "name": "Test",
+      "access_token": null,
+      "manager": false,
+      "mail": "redhuang37@gmail.com"
+    }
+  },
+  {
+    "model": "DeviceManagementSystemApp.students",
+    "pk": 104598037,
+    "fields": {
+      "name": "\u9ec3\u6cd3\u9cf4",
+      "access_token": null,
+      "manager": true,
+      "mail": "gcaaa31928@gmail.com"
+    }
+  },
+  {
+    "model": "DeviceManagementSystemApp.devices",
+    "pk": 0,
+    "fields": {
+      "name": "Iphone",
+      "owner": null,
+      "check_in_date_time": null,
+      "used_for": null,
+      "type": "Phone",
+      "issues": null,
+      "property_number": 100000001,
+      "token": null
+    }
+  },
+  {
+    "model": "DeviceManagementSystemApp.devices",
+    "pk": 1,
+    "fields": {
+      "name": "HTC",
+      "owner": null,
+      "check_in_date_time": null,
+      "used_for": null,
+      "type": "Phone",
+      "issues": null,
+      "property_number": 100000002,
+      "token": null
+    }
+  },
+  {
+    "model": "DeviceManagementSystemApp.devices",
+    "pk": 2,
+    "fields": {
+      "name": "ASUS_\u96fb\u8166",
+      "owner": null,
+      "check_in_date_time": null,
+      "used_for": null,
+      "type": "PC",
+      "issues": null,
+      "property_number": 100000003,
+      "token": null
+    }
+  }
+]
