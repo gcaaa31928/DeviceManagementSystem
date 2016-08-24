@@ -3,10 +3,12 @@ from datetime import datetime
 
 from rest_framework import status
 from rest_framework.decorators import api_view
+from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
 from DeviceManagementSystemApp.models import Students, Devices
 from DeviceManagementSystemApp.serializer import DeviceSerializer
+from DeviceManagementSystemApp.utils.errors import NoneExistsException
 from DeviceManagementSystemApp.views import JSONResponse
 
 
@@ -17,9 +19,7 @@ def get_student(meta):
     results = Students.objects.filter(access_token=access_token)
     if results.exists():
         return results[0]
-    else:
-        return None
-
+    raise NoneExistsException
 
 def retrieve_data(data):
     id = data.get('id', None)
@@ -63,7 +63,6 @@ def add(request, student):
     id, name, used_for, type, issues = retrieve_data(request.data)
     token = str(uuid.uuid1()).replace('-', '')
     device = Devices(
-        id=id,
         name=name,
         used_for=used_for,
         type=type,
@@ -77,7 +76,8 @@ def add(request, student):
 def delete(request, student, device):
     if student.manager:
         device.delete()
-    return JSONResponse('success', status=200)
+        return JSONResponse('success', status=200)
+    return JSONResponse('forbidden', status=status.HTTP_403_FORBIDDEN)
 
 def show(request, student, device):
     serializer = DeviceSerializer(device)

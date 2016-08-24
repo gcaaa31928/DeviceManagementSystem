@@ -4,7 +4,7 @@
     "pk": 104598000,
     "fields": {
       "name": "Test",
-      "access_token": null,
+      "access_token": "123",
       "manager": false,
       "mail": "redhuang37@gmail.com"
     }
@@ -14,7 +14,7 @@
     "pk": 104598037,
     "fields": {
       "name": "\u9ec3\u6cd3\u9cf4",
-      "access_token": null,
+      "access_token": "111",
       "manager": true,
       "mail": "gcaaa31928@gmail.com"
     }
